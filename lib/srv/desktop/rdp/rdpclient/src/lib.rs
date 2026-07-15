@@ -56,6 +56,7 @@ mod piv;
 mod rdpdr;
 mod ssl;
 mod util;
+mod egfx;
 
 /// rdpclient_init_log should be called at initialization time to set up
 /// logging on the rdpclient side.

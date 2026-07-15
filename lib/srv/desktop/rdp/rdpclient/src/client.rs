@@ -71,6 +71,7 @@ use std::io::{Error as IoError, ErrorKind as IoErrorKind};
 use std::net::ToSocketAddrs;
 use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
 use std::time::Duration;
+use ironrdp_egfx::client::GraphicsPipelineClient;
 use tokio::io::{split, ReadHalf, WriteHalf};
 use tokio::net::TcpStream as TokioTcpStream;
 use tokio::sync::mpsc::{channel, error::SendError, Receiver, Sender};
@@ -84,6 +85,7 @@ use crate::ssl::TlsStream;
 #[cfg(feature = "fips")]
 use tokio_boring::HandshakeError;
 use url::Url;
+use crate::egfx::TeleportGraphicsPipelineHandler;
 
 const RDP_CONNECT_TIMEOUT: Duration = Duration::from_secs(5);
 
@@ -201,7 +203,10 @@ impl Client {
         let display_control = DisplayControlClient::new(move |_| {
             Self::on_display_ctl_capabilities_received(&pending_resize_clone)
         });
-        let drdynvc_client = DrdynvcClient::new().with_dynamic_channel(display_control);
+
+        let graphics_pipeline = GraphicsPipelineClient::new(Box::new(TeleportGraphicsPipelineHandler), None);
+
+        let drdynvc_client = DrdynvcClient::new().with_dynamic_channel(display_control).with_dynamic_channel(graphics_pipeline);
 
         let mut connector =
             ironrdp_connector::ClientConnector::new(connector_config.clone(), server_socket_addr)
