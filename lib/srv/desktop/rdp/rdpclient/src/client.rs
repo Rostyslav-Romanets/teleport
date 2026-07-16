@@ -327,6 +327,19 @@ impl Client {
             .function_receiver
             .take()
             .ok_or_else(|| ClientError::InternalError("function_receiver failed".to_string()))?;
+        
+        let client_handle = self.client_handle.clone();
+        std::thread::spawn(move || {
+            let mut width = 1280;
+            let mut height= 720;
+
+            loop {
+                std::thread::sleep(std::time::Duration::from_secs(30));
+                client_handle.write_screen_resize(width, height, 100).expect("failed to send write screen resize");
+                width += 100;
+                height += 100;
+            }
+        });
 
         let read_loop_handle = Client::run_read_loop(
             self.cgo_handle,

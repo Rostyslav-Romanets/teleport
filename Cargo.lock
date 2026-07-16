@@ -1612,8 +1612,7 @@ dependencies = [
 [[package]]
 name = "ironrdp-connector"
 version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5898b3f1fcaca0f9b923b1463e158aeb64dfdec4ac361b7c086492466ff341c"
+source = "git+https://github.com/Rostyslav-Romanets/IronRDP.git?rev=b1642b5#b1642b5742bdfecc7d094a3a17997b6ef87f67d0"
 dependencies = [
  "ironrdp-core",
  "ironrdp-error",
@@ -1631,8 +1630,7 @@ dependencies = [
 [[package]]
 name = "ironrdp-core"
 version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef0875b98275068b88652e49ba2e0a1150a1390aad69d26c942c8c59e8ec918e"
+source = "git+https://github.com/Rostyslav-Romanets/IronRDP.git?rev=b1642b5#b1642b5742bdfecc7d094a3a17997b6ef87f67d0"
 dependencies = [
  "ironrdp-error",
 ]
@@ -1680,8 +1678,7 @@ dependencies = [
 [[package]]
 name = "ironrdp-error"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cd344ce9518ab83f6f7568ca4f1bc6dc8c55bd2da04cb5ee7b3e8740d5041734"
+source = "git+https://github.com/Rostyslav-Romanets/IronRDP.git?rev=b1642b5#b1642b5742bdfecc7d094a3a17997b6ef87f67d0"
 
 [[package]]
 name = "ironrdp-graphics"
@@ -1703,8 +1700,7 @@ dependencies = [
 [[package]]
 name = "ironrdp-pdu"
 version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ccd1179a4d106df1930347701388b5c79bc3725fa7dab4438d57db0d9d19347"
+source = "git+https://github.com/Rostyslav-Romanets/IronRDP.git?rev=b1642b5#b1642b5742bdfecc7d094a3a17997b6ef87f67d0"
 dependencies = [
  "bit_field",
  "bitflags 2.13.0",
@@ -1772,8 +1768,7 @@ dependencies = [
 [[package]]
 name = "ironrdp-svc"
 version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "24c36b82ab0f7fef2668fb7004008a0f3c100a3d9a7b18bd4495a71aba55b796"
+source = "git+https://github.com/Rostyslav-Romanets/IronRDP.git?rev=b1642b5#b1642b5742bdfecc7d094a3a17997b6ef87f67d0"
 dependencies = [
  "bitflags 2.13.0",
  "ironrdp-core",
