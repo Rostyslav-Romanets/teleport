@@ -18,28 +18,19 @@
 
 syntax = "proto3";
 
-package teleport.desktop.v1;
+package teleport.desktopcontrol.v1;
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
-import "teleport/desktop/v1/tdpb.proto";
 
-option go_package = "github.com/gravitational/teleport/api/gen/proto/go/teleport/desktop/v1;tdpbv1";
+option go_package = "github.com/gravitational/teleport/api/gen/proto/go/teleport/desktop_control/v1;deskctopcontrolv1";
 
-// Defines the IPC interface between the Go Teleport desktop proxy and the Rust RDP client.
-service DesktopService {
-  // Bidirectional streaming RPC that serves as the primary communication channel
-  // for exchanging TDPB messages during a session.
-  rpc Session(stream Envelope) returns (stream Envelope) {}
+message GetCertificateAndKeyRequest {}
 
-  // Returns the cached RDP license for the given metadata.
-  // If no license exists, returns an empty response.
-  rpc ReadRdpLicense(LicenseMetadata) returns (ReadRdpLicenseResponse) {}
-  // Persists the RDP license in the cache.
-  rpc WriteRdpLicense(License) returns (google.protobuf.Empty) {}
-
-  // Returns the certificate and the key used for authentication with the Windows Desktop Service.
-  rpc GetCertificateAndKey(google.protobuf.Empty) returns (CertificateAndKey) {}
+// TLS certificate and private key used for authentication with the Windows Desktop Service.
+message GetCertificateAndKeyResponse {
+  bytes cert = 1;
+  bytes key = 2;
 }
 
 // Metadata for an RDP license.
@@ -48,6 +39,10 @@ message LicenseMetadata {
   string issuer = 2;
   string company = 3;
   string product_id = 4;
+}
+
+message ReadRdpLicenseRequest {
+  LicenseMetadata license_metadata = 1;
 }
 
 // Response message for ReadRdpLicense RPC. Contains the cached RDP license information if it exists.
@@ -61,8 +56,24 @@ message License {
   bytes license_info = 2;
 }
 
-// TLS certificate and private key used for authentication with the Windows Desktop Service.
-message CertificateAndKey {
-  bytes cert = 1;
-  bytes key = 2;
+message WriteRdpLicenseRequest {
+  License license = 1;
+}
+
+message WriteRdpLicenseResponse {}
+
+message ControlRequest {
+  oneof request {
+    GetCertificateAndKeyRequest get_certificate_and_key_request = 1;
+    ReadRdpLicenseRequest read_rdp_license_request = 2;
+    WriteRdpLicenseRequest write_rdp_license_request = 3;
+  }
+}
+
+message ControlResponse {
+  oneof response {
+    GetCertificateAndKeyResponse get_certificate_and_key_response = 1;
+    ReadRdpLicenseResponse read_rdp_license_response = 2;
+    WriteRdpLicenseResponse write_rdp_license_response = 3;
+  }
 }
